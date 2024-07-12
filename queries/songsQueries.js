@@ -10,4 +10,27 @@ async function getAllSongs() {
   }
 }
 
-module.exports = { getAllSongs };
+async function getSongByID(id) {
+  const queryStr = "SELECT * FROM songs " + "WHERE id=$[id]";
+  try {
+    const song = await db.one(queryStr, { id: Number(id) });
+    return song;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function createSong(song) {
+  const queryStr =
+    "INSERT INTO songs (name, artist, album, time, is_favorite ) VALUES " +
+    "($[name], $[artist], $[album], $[time], $[is_favorite]) " +
+    "RETURNING *;";
+  try {
+    const newSong = await db.one(queryStr, song);
+    return newSong;
+  } catch (error) {
+    return error;
+  }
+}
+
+module.exports = { getAllSongs, getSongByID, createSong };

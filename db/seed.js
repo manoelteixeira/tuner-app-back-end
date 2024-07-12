@@ -6,11 +6,19 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+function capitalize(str) {
+  return str[0].toUpperCase() + str.slice(1);
+}
+
 function generateSong() {
   return {
-    name: `${faker.word.adjective()} ${faker.vehicle.type()}`,
-    artist: `${faker.word.adverb()} ${faker.animal.type()}`,
-    album: `${faker.word.adverb()} ${faker.science.chemicalElement().name}`,
+    name: `${capitalize(faker.word.adjective())} ${faker.vehicle.type()}`,
+    artist: `${capitalize(faker.word.adverb())} ${capitalize(
+      faker.animal.type()
+    )}`,
+    album: `${capitalize(faker.word.adverb())} ${
+      faker.science.chemicalElement().name
+    }`,
     time: randomInt(50, 400),
     is_favorite: faker.datatype.boolean(),
   };
