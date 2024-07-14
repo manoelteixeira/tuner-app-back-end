@@ -33,4 +33,14 @@ async function createSong(song) {
   }
 }
 
-module.exports = { getAllSongs, getSongByID, createSong };
+async function deleteSong(id) {
+  const queryStr = "DELETE FROM songs WHERE id=$[id] RETURNING *;";
+  try {
+    const deletedSong = await db.one(queryStr, { id: Number(id) });
+    return deletedSong;
+  } catch (error) {
+    return error;
+  }
+}
+
+module.exports = { getAllSongs, getSongByID, createSong, deleteSong };
