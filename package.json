@@ -7,7 +7,8 @@
     "start": "node server.js",
     "watch": "nodemon server.js",
     "db:init": "psql -U postgres -f db/schema.sql",
-    "db:seed": "node db/seed.js"
+    "db:seed": "node db/seed.js",
+    "dev": "echo \"\n** Initializing Database **\n\" && psql -U postgres -f db/schema.sql && echo \"\n** Seeding Database **\n\" && node db/seed.js && echo \"\n** Starting Up Server **\n\" && nodemon server.js "
   },
   "keywords": [],
   "author": "",

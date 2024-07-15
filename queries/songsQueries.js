@@ -43,4 +43,24 @@ async function deleteSong(id) {
   }
 }
 
-module.exports = { getAllSongs, getSongByID, createSong, deleteSong };
+async function updateSong(id, song) {
+  const keys = Object.keys(song).filter((key) => song[key] != undefined);
+  const queryStr =
+    "UPDATE songs SET " +
+    `${keys.map((key) => `${key}=$[${key}]`).join(", ")} ` +
+    "WHERE id=$[id] RETURNING *;";
+  try {
+    const updatedSong = await db.one(queryStr, { ...song, id: id });
+    return updatedSong;
+  } catch (error) {
+    return error;
+  }
+}
+
+module.exports = {
+  getAllSongs,
+  getSongByID,
+  createSong,
+  deleteSong,
+  updateSong,
+};

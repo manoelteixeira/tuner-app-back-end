@@ -7,6 +7,7 @@ const {
   getSongByID,
   createSong,
   deleteSong,
+  updateSong,
 } = require("../queries/songsQueries.js");
 const {
   validateName,
@@ -60,5 +61,24 @@ songs.delete("/:id", async (req, res) => {
     res.status(404).json({ error: "Song not found!" });
   }
 });
+
+songs.put(
+  "/:id",
+  validateName,
+  validateArtist,
+  validateAlbum,
+  validateTime,
+  validateIsFavorite,
+  async (req, res) => {
+    const { id } = req.params;
+    const updatedSong = await updateSong(id, req.body);
+    console.log(updatedSong);
+    if (updatedSong.id) {
+      res.status(200).json(updatedSong);
+    } else {
+      res.status(404).json({ error: "Song not found!" });
+    }
+  }
+);
 
 module.exports = songs;

@@ -1,5 +1,3 @@
-const { el } = require("@faker-js/faker");
-
 function validateName(req, res, next) {
   if (!req.body.name) {
     res.status(400).json({ error: "name is required" });
