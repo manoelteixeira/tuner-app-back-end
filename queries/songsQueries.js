@@ -10,6 +10,27 @@ async function getAllSongs() {
   }
 }
 
+async function getAllSongsOrder(order) {
+  order = order == "asc" ? "ASC" : "DESC";
+  const queryStr = `SELECT * FROM songs ORDER BY name ${order};`;
+  try {
+    const allSongs = await db.any(queryStr);
+    return allSongs;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function filterSongsByFavorite(favorite) {
+  const queryStr = `SELECT * FROM songs WHERE is_favorite = ${favorite};`;
+  try {
+    const allSongs = await db.any(queryStr);
+    return allSongs;
+  } catch (error) {
+    return error;
+  }
+}
+
 async function getSongByID(id) {
   const queryStr = "SELECT * FROM songs " + "WHERE id=$[id]";
   try {
@@ -59,6 +80,8 @@ async function updateSong(id, song) {
 
 module.exports = {
   getAllSongs,
+  getAllSongsOrder,
+  filterSongsByFavorite,
   getSongByID,
   createSong,
   deleteSong,

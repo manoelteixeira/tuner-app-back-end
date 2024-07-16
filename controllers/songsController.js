@@ -4,6 +4,8 @@ const express = require("express");
 const songs = express.Router();
 const {
   getAllSongs,
+  getAllSongsOrder,
+  filterSongsByFavorite,
   getSongByID,
   createSong,
   deleteSong,
@@ -18,7 +20,14 @@ const {
 } = require("../validators/songsValidators.js");
 
 songs.get("/", async (req, res) => {
-  const allSongs = await getAllSongs();
+  let allSongs = [];
+  if (req.query.order) {
+    allSongs = await getAllSongsOrder(req.query.order);
+  } else if (req.query.is_favorite) {
+    allSongs = await filterSongsByFavorite(req.query.is_favorite);
+  } else {
+    allSongs = await getAllSongs();
+  }
   if (allSongs[0]) {
     res.status(200).json(allSongs);
   } else {
@@ -72,7 +81,6 @@ songs.put(
   async (req, res) => {
     const { id } = req.params;
     const updatedSong = await updateSong(id, req.body);
-    console.log(updatedSong);
     if (updatedSong.id) {
       res.status(200).json(updatedSong);
     } else {
