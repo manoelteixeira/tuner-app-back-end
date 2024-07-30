@@ -46,6 +46,7 @@ async function createSong(song) {
     "INSERT INTO songs (name, artist, album, time, is_favorite ) VALUES " +
     "($[name], $[artist], $[album], $[time], $[is_favorite]) " +
     "RETURNING *;";
+
   try {
     const newSong = await db.one(queryStr, song);
     return newSong;

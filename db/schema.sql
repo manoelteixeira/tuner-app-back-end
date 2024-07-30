@@ -6,10 +6,14 @@ CREATE DATABASE tuner;
 
 CREATE TABLE songs (
  id SERIAL PRIMARY KEY,
- name TEXT NOT NULL,
+ title TEXT NOT NULL,
  artist TEXT NOT NULL,
  album TEXT,
- time INTEGER,
- is_favorite BOOLEAN
+ time INTEGER
 );
 
+CREATE TABLE playlist(
+    id SERIAL PRIMARY KEY,
+    song_id INTEGER REFERENCES songs(id) ON DELETE CASCADE,
+    is_favorite BOOLEAN
+);
